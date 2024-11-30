@@ -1,5 +1,7 @@
 import SearchForm from "@/components/SearchForm";
 import StartupCard from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 
 export default async function Home({
   searchParams,
@@ -7,22 +9,24 @@ export default async function Home({
   searchParams: Promise<{ query?: string }>;
 }) {
   const query = (await searchParams).query;
-  const posts = [
-    {
-      _createdAt: new Date(),
-      views: 55,
-      author: {
-        _id: 1,
-        name: "Loganathan Ramasamy",
-      },
-      _id: 1,
-      description: "A new way to search on Windows 11",
-      image:
-        "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSFT-Windows-11-Search-bar?scl=1",
-      category: "Tech",
-      title: "Windows 11",
-    },
-  ];
+  const posts = await client.fetch(STARTUPS_QUERY);
+  console.log(JSON.stringify(posts, null, 2));
+  // const posts = [
+  //   {
+  //     _createdAt: new Date(),
+  //     views: 55,
+  //     author: {
+  //       _id: 1,
+  //       name: "Loganathan Ramasamy",
+  //     },
+  //     _id: 1,
+  //     description: "A new way to search on Windows 11",
+  //     image:
+  //       "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/MSFT-Windows-11-Search-bar?scl=1",
+  //     category: "Tech",
+  //     title: "Windows 11",
+  //   },
+  // ];
   return (
     <>
       <section className="pink_container">
